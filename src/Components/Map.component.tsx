@@ -1,5 +1,5 @@
 import React from 'react';
-import { State, Props } from '../Interface';
+import { State, Props } from '../P_S_Interface';
 
 export default class Map extends React.Component<Props, State> {
     constructor(props: Props) {

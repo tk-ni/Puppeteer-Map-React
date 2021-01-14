@@ -1,6 +1,6 @@
 import React from 'react';
 import './Styles/Main.css';
-import { State, Props } from './Interface';
+import { State, Props } from './P_S_Interface';
 import Map from './Components/Map.component';
 
 
