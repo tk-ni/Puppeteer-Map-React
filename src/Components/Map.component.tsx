@@ -1,5 +1,7 @@
 import React from 'react';
-import { State, Props } from '../P_S_Interface';
+
+interface Props{}
+interface State{}
 
 export default class Map extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -8,7 +10,7 @@ export default class Map extends React.Component<Props, State> {
 
     render(){
         return(<>
-        <h1>aa</h1>
+        <h1>Map</h1>
         </>)
     }
 }
