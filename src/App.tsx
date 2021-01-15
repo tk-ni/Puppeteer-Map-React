@@ -7,13 +7,14 @@ interface State{
 };
 
 export default class App extends React.Component<State> {
+
   state: State ={
  
   }
 
   render() {
     return (<>
-      <Map />
+      <Map loading={true}/>
     </>)
   }
 }
