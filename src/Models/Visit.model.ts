@@ -1,13 +1,14 @@
 export default class Visit{
-    id: String;
-    url: String;
-    date: String;
-    src: String;
-    
-    constructor(id: string, url: string,date: string, src: string){
+    id: string;
+    url: string;
+    date: string;
+    src: string;
+    vertex: any;
+    constructor(id: string, url: string,date: string, src: string, vertex: object){
         this.id = id;
         this.url = url;
         this.date = date;
         this.src = src;
+        this.vertex = vertex;
     }
 }
