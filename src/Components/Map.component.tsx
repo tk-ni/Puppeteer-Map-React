@@ -4,7 +4,8 @@ import Loading from './Loading.component';
 import Line from './3D/Line.3d.component';
 import Dot from './3D/Dot.3d.component';
 import Visit from './../Models/Visit.model';
-import  {OrbitControls} from './../Controls/OrbitControls';
+import { OrbitControls } from './../Controls/OrbitControls';
+import { handleSceneResize, initEventListener } from '../Core/utils/screenResize';
 interface Props {
     loading: boolean,
     visits: Visit[]
@@ -22,12 +23,9 @@ export default class Map extends React.Component<Props, State> {
     }
 
     private canvasRef = React.createRef();
-    private loadingManager: THREE.LoadingManager = new THREE.LoadingManager();
     private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     private camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();
     private scene: THREE.Scene = new THREE.Scene();
-
-
 
     componentDidMount() {
         this.initScene();
@@ -47,35 +45,29 @@ export default class Map extends React.Component<Props, State> {
     }
 
     private updateScene = (visits: Visit[]) => {
-
+        while (this.scene.children.length > 0) {
+            this.scene.remove(this.scene.children[0]);
+        }
         for (let i = 0; i < visits.length; i++) {
-            if(!this.scene.getObjectByName(visits[i].url)){
+            if (!this.scene.getObjectByName(visits[i].url)) {
                 let dot = new Dot(new THREE.Vector2(visits[i].vertex.x, visits[i].vertex.y), visits[i]);
                 let dotMesh = dot.create();
                 dotMesh.name = visits[i].url;
                 this.scene.add(dotMesh);
             }
-
-    
         }
-        
+
         for (let i = 0; i < visits.length; i++) {
-            for(let j = 0; j < visits.length; j++){
+            for (let j = 0; j < visits.length; j++) {
                 if (visits[i] && visits[j] && visits[i].url.includes(visits[j].src)) {
                     let line = new Line(new THREE.Vector2(visits[i].vertex.x, visits[i].vertex.y), new THREE.Vector2(visits[j].vertex.x, visits[j].vertex.y));
                     this.scene.add(line.create());
                 }
             }
-    
         }
     }
 
     private initScene = () => {
-        this.loadingManager.onLoad = () => {
-            this.setState({ loading: false }, () => { })
-        }
-
-
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.autoClear = false;
         this.renderer.setClearColor(new THREE.Color(0x222222));
@@ -98,6 +90,9 @@ export default class Map extends React.Component<Props, State> {
         controls.maxDistance = 300;
         controls.minDistance = 50;
 
+        //init Handle Resize
+        handleSceneResize(window, this.camera, this.renderer)
+        initEventListener(window);
         const animate = () => {
             requestAnimationFrame(animate);
             this.renderer.render(this.scene, this.camera);

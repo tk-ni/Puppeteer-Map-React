@@ -1,12 +1,14 @@
 import React from 'react';
 import './Styles/Main.css';
+import 'semantic-ui-css/semantic.min.css';
 import Map from './Components/Map.component';
 import { Server } from './Core/env';
 import io from "socket.io-client";
 import Visit from './Models/Visit.model';
 import Log from './Models/Log.model';
+import LogDisplay from './Components/LogDisplay.component';
 
-interface State{
+interface State {
   socket: SocketIOClient.Socket,
   visits: Visit[],
   logs: Log[]
@@ -15,32 +17,29 @@ interface State{
 
 export default class App extends React.Component<State> {
 
-  state: State ={
-    socket: io.connect(Server),
+
+  state: State = {
+    socket: io(Server),
     visits: [],
     logs: []
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.initSocket();
   }
 
   private initSocket = () => {
-    this.state.socket.on('visits', (data: object) => {
-        this.setState({ visits: data }, () => {
-            this.setState({ loading: false }, () => { })
-        })
+
+    this.state.socket.on('update', (data: object[])=>{
+      this.setState({visits: data[0], logs: data[1]}, ()=>{})
     })
 
-    this.state.socket.on('logs', (data: object) => {
-        this.setState({ logs: data }, () => { })
-    })
-
-}
+  }
 
   render() {
     return (<>
-      <Map loading={true} visits={[...this.state.visits]}/>
+      <Map loading={true} visits={this.state.visits} />
+      <LogDisplay logs={this.state.logs} />
     </>)
   }
 }
