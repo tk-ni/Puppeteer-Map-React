@@ -1,1 +1,1 @@
-export const Server = 'http://localhost:3201'
+export const Server = 'https://puppeteer-map-server.herokuapp.com'

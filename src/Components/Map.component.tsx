@@ -6,6 +6,7 @@ import Dot from './3D/Dot.3d.component';
 import Visit from './../Models/Visit.model';
 import { OrbitControls } from './../Controls/OrbitControls';
 import { handleSceneResize, initEventListener } from '../Core/utils/screenResize';
+import { Icon } from 'semantic-ui-react';
 
 interface Props {
     loading: boolean,
@@ -42,7 +43,7 @@ export default class Map extends React.Component<Props, State> {
 
         //Update the scene
         if (newProps.visits !== this.state.visits) {
-            this.setState({ visits: newProps.visits }, () => {
+            this.setState({ visits: newProps.visits, loading: false }, () => {
                 this.updateScene(this.state.visits);
             })
         }
@@ -87,7 +88,7 @@ export default class Map extends React.Component<Props, State> {
         this.camera.aspect = this.canvasRef.current.offsetWidth / this.canvasRef.current.offsetHeight;
         this.camera.near = 0.1;
         this.camera.far = 1000;
-        this.camera.position.z = 500;
+        this.camera.position.z = 180;
 
         const controls = new OrbitControls(this.camera, this.renderer.domElement);
         controls.enableRotate = false;
@@ -113,6 +114,7 @@ export default class Map extends React.Component<Props, State> {
     render() {
         return (<>
             <div className="three-container" ref={this.canvasRef}></div>
+            <div className="credits"><a href="https://github.com/tk-ni" target="_blank">Puppeteer Scraper Map made by <Icon name="github" />tk-ni</a></div>
             {this.state.loading ? <Loading /> : ''}
         </>)
     }
