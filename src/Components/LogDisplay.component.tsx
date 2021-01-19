@@ -11,12 +11,12 @@ interface State {
     logsVisible: boolean,
 }
 
-export default class LogDisplay extends React.Component<State, Props>{
+export default class LogDisplay extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
     }
 
-    private divRef = React.createRef();
+    private divRef: any = React.createRef();
 
     state: State = {
         logs: [],
@@ -45,7 +45,7 @@ export default class LogDisplay extends React.Component<State, Props>{
     render() {
         return (<Draggable handle={'.logs-container-header'}>
             <div className="logs-container" ref={this.divRef} style={{ height: this.state.logsVisible ? '300px' : '30px' }}>
-                <div className="logs-container-header">Log <span style={{ position: 'relative', zIndex: '2' }} onClick={this.handleLogsVisibleClick}>{this.state.logsVisible ? <Icon className="logs-collapse" name={'angle up'} /> : <Icon className="logs-collapse" name={'angle down'} />}</span></div>
+                <div className="logs-container-header">Log <span style={{ position: 'relative', zIndex: 2 }} onClick={this.handleLogsVisibleClick}>{this.state.logsVisible ? <Icon className="logs-collapse" name={'angle up'} /> : <Icon className="logs-collapse" name={'angle down'} />}</span></div>
                 {this.state.logs.length && this.state.logsVisible ? this.state.logs.map((l, idx) => {
                     if (l.string.includes('Fetching')) {
                         return <p key={idx}><span style={{ color: '#90b312' }}>{l.string.slice(0, 8)}</span> {l.string.slice(8, 50)}...</p>

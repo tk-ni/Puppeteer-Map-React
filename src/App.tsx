@@ -10,12 +10,13 @@ import LogDisplay from './Components/LogDisplay.component';
 
 interface State {
   socket: SocketIOClient.Socket,
-  visits: Visit[],
-  logs: Log[]
+  visits: any,
+  logs: any
 
 };
 
-export default class App extends React.Component<State> {
+
+export default class App extends React.Component<{}, State> {
 
 
   state: State = {

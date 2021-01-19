@@ -24,7 +24,7 @@ export default class Map extends React.Component<Props, State> {
         visits: this.props.visits ? this.props.visits : [],
     }
 
-    private canvasRef = React.createRef();
+    private canvasRef: any = React.createRef();
     private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     private camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();
     private scene: THREE.Scene = new THREE.Scene();
