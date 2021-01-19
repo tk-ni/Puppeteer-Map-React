@@ -32,16 +32,14 @@ export default class App extends React.Component<{}, State> {
 
   private initSocket = () => {
     this.state.socket.on('update', (data: object[])=>{
-      console.log('socket');
       this.setState({visits: data[0], logs: data[1], loading: false}, ()=>{
-        console.log('update');
       })
     })
 
   }
 
   componentWillUnmount(){
-    this.state.socket.disconnect();
+    this.state.socket.close();
   }
 
   render() {
