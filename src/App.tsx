@@ -4,8 +4,6 @@ import 'semantic-ui-css/semantic.min.css';
 import Map from './Components/Map.component';
 import { Server } from './Core/env';
 import io from "socket.io-client";
-import Visit from './Models/Visit.model';
-import Log from './Models/Log.model';
 import LogDisplay from './Components/LogDisplay.component';
 import Loading from './Components/Loading.component';
 
@@ -22,7 +20,7 @@ export default class App extends React.Component<{}, State> {
 
 
   state: State = {
-    socket: io(Server),
+    socket: io(Server, { upgrade: false, transports: ['websocket'] }),
     visits: [],
     logs: [],
     loading: true
@@ -33,11 +31,17 @@ export default class App extends React.Component<{}, State> {
   }
 
   private initSocket = () => {
-
     this.state.socket.on('update', (data: object[])=>{
-      this.setState({visits: data[0], logs: data[1], loading: false}, ()=>{})
+      console.log('socket');
+      this.setState({visits: data[0], logs: data[1], loading: false}, ()=>{
+        console.log('update');
+      })
     })
 
+  }
+
+  componentWillUnmount(){
+    this.state.socket.disconnect();
   }
 
   render() {

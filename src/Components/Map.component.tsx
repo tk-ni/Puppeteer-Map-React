@@ -1,6 +1,5 @@
 import React from 'react';
 import * as THREE from 'three';
-import Loading from './Loading.component';
 import Line from './3D/Line.3d.component';
 import Dot from './3D/Dot.3d.component';
 import Visit from './../Models/Visit.model';
@@ -31,6 +30,7 @@ export default class Map extends React.Component<Props, State> {
 
     componentDidMount() {
         this.initScene();
+        this.updateScene(this.state.visits);
     }
 
     componentWillReceiveProps(newProps: Props) {

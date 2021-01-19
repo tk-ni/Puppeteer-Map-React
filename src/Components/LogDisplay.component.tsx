@@ -19,7 +19,7 @@ export default class LogDisplay extends React.Component<Props, State>{
     private divRef: any = React.createRef();
 
     state: State = {
-        logs: [],
+        logs: this.props.logs? this.props.logs : [],
         logsVisible: true
     }
 
