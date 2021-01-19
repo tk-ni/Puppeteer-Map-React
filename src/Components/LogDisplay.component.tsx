@@ -43,7 +43,7 @@ export default class LogDisplay extends React.Component<Props, State>{
     }
 
     render() {
-        return (<Draggable handle={'.logs-container-header'}>
+        return (<Draggable handle={'.logs-container-header'} disabled={window.innerWidth < 1000 ? true : false}>
             <div className="logs-container" ref={this.divRef} style={{ height: this.state.logsVisible ? '300px' : '30px' }}>
                 <div className="logs-container-header">Log <span style={{ position: 'relative', zIndex: 2 }} onClick={this.handleLogsVisibleClick}>{this.state.logsVisible ? <Icon className="logs-collapse" name={'angle up'} /> : <Icon className="logs-collapse" name={'angle down'} />}</span></div>
                 {this.state.logs.length && this.state.logsVisible ? this.state.logs.map((l, idx) => {
