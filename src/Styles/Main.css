@@ -12,7 +12,7 @@
     width:500px;
     background:#131313;
     color:#c7c7c7;
-    z-index: 1;
+    z-index: 5;
     position: fixed;
     right:10px;
     top:10px;
@@ -26,7 +26,7 @@
 }
 
 .logs-container-header{
-    cursor:grabbing;
+    cursor: pointer;;
     position: sticky;
     background-color: #161616;
     z-index: 1;
@@ -43,10 +43,6 @@
 
 .logs-collapse{
     float: right;
-}
-
-.logs-container span{
-  
 }
 
 
@@ -116,6 +112,13 @@
     color: #ffffff;
 
     text-decoration: underline;
+}
+
+.controls{
+    z-index: 3;
+    color: #ffffff;
+    position: relative;
+    padding:10px;
 }
 @keyframes rotate{
     0%{transform: rotateY(0deg);}

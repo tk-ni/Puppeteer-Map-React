@@ -6,22 +6,22 @@ import Dot from './3D/Dot.3d.component';
 import Visit from './../Models/Visit.model';
 import { OrbitControls } from './../Controls/OrbitControls';
 import { handleSceneResize, initEventListener } from '../Core/utils/screenResize';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
+import { Server } from '../Core/env';
 
 interface Props {
-    loading: boolean,
     visits: Visit[]
 }
 interface State {
-    loading: boolean,
     visits: Visit[],
+    resetLoading: boolean,
 }
 
 export default class Map extends React.Component<Props, State> {
 
     state: State = {
-        loading: this.props.loading ? true : false,
         visits: this.props.visits ? this.props.visits : [],
+        resetLoading: false
     }
 
     private canvasRef: any = React.createRef();
@@ -39,11 +39,13 @@ export default class Map extends React.Component<Props, State> {
             while (this.scene.children.length > 0) {
                 this.scene.remove(this.scene.children[0]);
             }
+            this.setState({resetLoading: false})
+
         }
 
         //Update the scene
         if (newProps.visits !== this.state.visits) {
-            this.setState({ visits: newProps.visits, loading: false }, () => {
+            this.setState({ visits: newProps.visits}, () => {
                 this.updateScene(this.state.visits);
             })
         }
@@ -111,11 +113,30 @@ export default class Map extends React.Component<Props, State> {
         animate();
     }
 
+    private handleResetVisits = () =>{
+        this.setState({resetLoading: true}, async ()=>{
+            await fetch(Server + '/reset', {
+                method: 'GET'
+            }).catch(e =>{
+                console.log(e);
+            })
+        })
+
+    }
+
     render() {
         return (<>
             <div className="three-container" ref={this.canvasRef}></div>
+            <div className="controls">
+                <Button onClick={this.handleResetVisits}
+                className={this.state.resetLoading ? "circular ui grey basic" : "circular ui red basic"}
+                disabled={this.state.resetLoading}
+                style={{color: '#ffffff'}}
+                icon="redo"
+                content={" Reset Visits | " + this.state.visits.length}
+                />
+            </div>
             <div className="credits"><a href="https://github.com/tk-ni" target="_blank">Puppeteer Scraper Map made by <Icon name="github" />tk-ni</a></div>
-            {this.state.loading ? <Loading /> : ''}
         </>)
     }
 }
